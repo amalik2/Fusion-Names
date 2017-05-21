@@ -8,11 +8,11 @@
 #include <algorithm>
 #include <set>
 
-static const float BASE_NAME_PERCENT = 0.70;
-static const float OTHER_NAME_PERCENT = 0.30;
+static const float BASE_NAME_PERCENT = 0.70f;
+static const float OTHER_NAME_PERCENT = 0.30f;
 
-static const float SECONDARY_BASE_NAME_PERCENT = 0.30;
-static const float SECONDARY_OTHER_NAME_PERCENT = 0.80;
+static const float SECONDARY_BASE_NAME_PERCENT = 0.30f;
+static const float SECONDARY_OTHER_NAME_PERCENT = 0.80f;
 
 static const int MIN_DECREASE_COUNT = 5; // The minimum name length required to use less characters from the name than the original length
 
@@ -100,11 +100,11 @@ namespace {
 		// Check if each substring is repeated
 		for (std::string s : substrings) {
 
-			int first = original.find(s);
+			size_t first = original.find(s);
 			// s exists atleast once
 			if (first != std::string::npos) {
 
-				int second = original.find(s, first + s.size());
+				size_t second = original.find(s, first + s.size());
 				// s exists atleast twice, and the second appearance is immediately after the first
 				if (second != std::string::npos && second == first + s.size()) {
 
@@ -134,7 +134,7 @@ namespace {
 		std::istream_iterator<std::string> end;
 		std::vector<std::string> subnames(begin, end);
 
-		int longest = 0;
+		size_t longest = 0;
 
 		// Determine the index of the longest subname
 		for (size_t i = 1; i < subnames.size(); i++) {
