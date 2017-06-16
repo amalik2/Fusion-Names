@@ -11,7 +11,7 @@ int main() {
 	std::cout << "Enter Name 2: ";
 	std::cin >> base;
 	
-	std::cout << "FINAL NAME = " << getFusionName(base, other) << std::endl;
+	std::cout << "FINAL NAME = " << FusionNames::getFusionName(base, other) << std::endl;
 
 	return 0;
 }

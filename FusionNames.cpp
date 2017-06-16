@@ -34,54 +34,58 @@ namespace {
 	std::string combine(std::string other, std::string base, bool secondary);
 }
 
-bool isCharNonLetter(char c) {
-	char lower = tolower(c);
-	return toupper(lower) == lower;
-}
+namespace FusionNames
+{
 
-std::string getFusionName(std::string base, std::string other) {
+	bool isCharNonLetter(char c) {
+		char lower = tolower(c);
+		return toupper(lower) == lower;
+	}
 
-	if (other == base)
-		return other;
+	std::string getFusionName(std::string base, std::string other) {
 
-	std::string finalName;
-	std::string preferredMerge = combine(other, base, false);
-	std::string reverseMerge = combine(base, other, false);
+		if (other == base)
+			return other;
 
-	//std::cout << preferredMerge << std::endl;
-	//std::cout << reverseMerge << std::endl;
+		std::string finalName;
+		std::string preferredMerge = combine(other, base, false);
+		std::string reverseMerge = combine(base, other, false);
 
-	// This will be set to true if ((preferredMerge && reverseMerge) == (other || base)) and other != base
-	// Redo the merge using the secondary name percentages if this is true
-	bool redoMerge = false;
+		//std::cout << preferredMerge << std::endl;
+		//std::cout << reverseMerge << std::endl;
 
-	if (preferredMerge == other || preferredMerge == base) {
-		if (reverseMerge != base && reverseMerge != other) {
-			finalName = reverseMerge;
+		// This will be set to true if ((preferredMerge && reverseMerge) == (other || base)) and other != base
+		// Redo the merge using the secondary name percentages if this is true
+		bool redoMerge = false;
+
+		if (preferredMerge == other || preferredMerge == base) {
+			if (reverseMerge != base && reverseMerge != other) {
+				finalName = reverseMerge;
+			}
+			else {
+				redoMerge = true;
+			}
+		}
+		else if (reverseMerge == base || reverseMerge == other) {
+			if (preferredMerge != other && preferredMerge != base) {
+				finalName = preferredMerge;
+			}
+			else {
+				redoMerge = true;
+			}
 		}
 		else {
-			redoMerge = true;
-		}
-	}
-	else if (reverseMerge == base || reverseMerge == other) {
-		if (preferredMerge != other && preferredMerge != base) {
 			finalName = preferredMerge;
 		}
-		else {
-			redoMerge = true;
+
+		if (redoMerge) {
+			finalName = combine(other, base, true);
 		}
-	}
-	else {
-		finalName = preferredMerge;
+
+		return finalName;
 	}
 
-	if (redoMerge) {
-		finalName = combine(other, base, true);
-	}
-
-	return finalName;
 }
-
 // anonymous namespace for private functions definitions
 namespace {
 	std::string eraseSubstringDuplicates(std::string original, std::string subname, std::string base, std::string other) {
@@ -157,7 +161,7 @@ namespace {
 			return finalName;
 
 		// Remove all non-letter characters
-		finalName.erase(std::remove_if(finalName.begin(), finalName.end(), isCharNonLetter), finalName.end());
+		finalName.erase(std::remove_if(finalName.begin(), finalName.end(), FusionNames::isCharNonLetter), finalName.end());
 
 		return finalName;
 	}
