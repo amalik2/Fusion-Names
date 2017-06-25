@@ -38,8 +38,7 @@ namespace FusionNames
 {
 
 	bool isCharNonLetter(char c) {
-		char lower = tolower(c);
-		return toupper(lower) == lower;
+		return !isalpha(c);
 	}
 
 	std::string getFusionName(std::string base, std::string other) {
